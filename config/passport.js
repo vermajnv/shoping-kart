@@ -48,6 +48,35 @@ passport.use('local.signup',
    })
 );
 
+passport.use('user.signin', new LocalStrategy({
+   usernameField : 'email',
+   userpasswordField : 'password',
+   passReqToCallback : true,
+}, (req, email, password, done) => {
+      let messages = [];
+      Object.entries(validationResult(req).errors).forEach(([key, param]) => {
+         messages.push(param.msg);
+      });
+      if (messages.length) {
+         return done(null, false, req.flash('error', messages));
+      }
+      User.findOne({email : email}, (err, user) => {
+         if(err) {
+            return done(err);
+         }
+         if(!user)
+         {
+            return done(null, false, {message : 'User name not found'});
+         }
+         if(!user.validPassword(password))
+         {
+            return done(null, false, {message : 'Password does not matches'});
+         }
+         return done(null, user);
+      })
+   }
+));
+
 function createUser(email, password)
 {
    var newUser = new User();

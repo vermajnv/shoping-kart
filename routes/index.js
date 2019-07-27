@@ -21,7 +21,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/user/signup', (req, res, next) => {
    let messages = req.flash('error');
-   console.log(messages);
    res.render('user/signup', {csrfToken : req.csrfToken(), messages : messages, dataCount : messages.length > 0});
 });
 
@@ -40,4 +39,19 @@ router.get('/profile', function(req, res, next) {
    res.render('user/profile');
 });
 
+router.get('/user/signin', (req, res, next) => {
+   let messages = req.flash('error');
+   res.render('user/signin', {csrfToken : req.csrfToken(), messages : messages, dataCount : messages.length > 0} );
+});
+
+router.post('/user/signin',
+   [
+      check('email').isEmail().withMessage('A valid Email is required'),
+      check('password').not().isEmpty().withMessage('Password field can not be empty'),
+   ],
+   passport.authenticate('user.signin', {
+      successRedirect : '/profile',
+      failureRedirect : '/user/signin',
+      failureFlash : true,
+}));
 module.exports = router;
