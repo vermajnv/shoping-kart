@@ -7,7 +7,7 @@
    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
          <li class="nav-item active">
-            <a class="nav-link" href="#">Brand<span class="sr-only"></span></a>
+            <a class="nav-link" href="/">Brand<span class="sr-only"></span></a>
          </li>
 
       </ul>
@@ -18,13 +18,18 @@
          </li>
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fa fa-user" aria-hidden="true"></i> Profile
+               <i class="fa fa-user" aria-hidden="true"></i> User Management
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-               <a class="dropdown-item" href="#">Action</a>
-               <a class="dropdown-item" href="#">Another </a>
-               <div class="dropdown-divider"></div>
-               <a class="dropdown-item" href="#">Something </a>
+               {{# if loginStatus}}
+                  <a class="dropdown-item" href="/user/profile">User Account</a>
+                  <a class="dropdown-item" href="/user/signout">Logout</a>
+               {{ else}}
+                  <a class="dropdown-item" href="/user/signin">Login</a>
+                  <a class="dropdown-item" href="/user/signup">Signup</a>
+                     <!-- <div class="dropdown-divider"></div>
+                     <a class="dropdown-item" href="#">Something </a> -->
+               {{/if}}
             </div>
          </li>
       </ul>

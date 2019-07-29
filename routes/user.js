@@ -14,6 +14,11 @@ router.get('/profile', isLogedIn, function(req, res, next) {
    res.render('user/profile');
 });
 
+router.get('/signout', isLogedIn, (req, res, next) => {
+   req.logout();
+   res.redirect('/');
+});
+
 router.use('/', notLogedIn, (req, res, next) => {
    next();
 });
@@ -50,10 +55,6 @@ router.get('/signin', (req, res, next) => {
    });
 });
 
-router.get('/signout', (req, res, next) => {
-   req.logout();
-   res.redirect('/')
-})
 router.post('/signin',
    [
       check('email').isEmail().withMessage('A valid Email is required'),
