@@ -5,7 +5,7 @@ var Product = require('../models/product');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    console.log(req.session.cart);
+    // console.log(req.session.cart.items);
    Product.find((error, data) => {
       let productChunk = [];
       for(i = 0; i < data.length; i += 3)
@@ -30,6 +30,9 @@ router.get('/add-to-cart/:id', (req, res, next) => {
           res.redirect('/');
       }
    });
-   console.log(cart);
 });
+
+router.get('/shopping-kart', (req, res, next) => {
+    res.render('shop/shopping-kart');
+})
 module.exports = router;

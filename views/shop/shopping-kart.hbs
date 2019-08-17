@@ -1,0 +1,30 @@
+<div class="row d-flex justify-content-center mt-3">
+    <div class="col-md-8">
+        <ul class="list-group ">
+            {{#each session.cart}}
+                {{#each this}}
+                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-primary">
+                        <div class="">
+                            {{this.item.title}}
+                            <span class="badge badge-light badge-pill">${{this.this.price}}</span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Remove 1</a>
+                                <a class="dropdown-item" href="#">Remove All</a>
+                            </div>
+                            <span class="badge badge-primary">{{this.qty}}</span>
+                        </div>
+                    </li>
+                {{/each}}
+            {{/each}}
+        </ul>
+    </div>
+    <div class="col-md-8 mt-4">
+        <h1>Total: ${{session.cart.totalPrice}}</h1>
+        <button type="button" name="button" class="btn btn-success">Checkout</button>
+    </div>
+</div>
