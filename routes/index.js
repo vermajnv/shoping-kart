@@ -40,6 +40,6 @@ router.get('/checkout', (req, res, next) => {
     if (!req.session.cart) {
         res.render('shop/shopping-kart');
     }
-    res.render('shop/checkout1');
+    res.render('shop/checkout', {'publisableKey' : process.env.STRIPE_PULISHABLE_KEY});
 });
 module.exports = router;
