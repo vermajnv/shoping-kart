@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
+var dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
 
 var indexRouter = require('./routes/index');
@@ -18,11 +19,20 @@ var app = express();
 mongoose.connect('mongodb://localhost:27017/kart', {
    useNewUrlParser: true
 });
+
 require('./config/passport');
+dotenv.config();
 // view engine setup
 app.engine('hbs', expressHbs({
    defaultLayout: 'layout',
-   extname: 'hbs'
+   extname: 'hbs',
+   helpers: {
+            section: function(name, options){
+                if(!this._sections) this._sections = {};
+                this._sections[name] = options.fn(this);
+                return null;
+            }
+        }
 }))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
