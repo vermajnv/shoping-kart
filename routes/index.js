@@ -40,6 +40,17 @@ router.get('/checkout', (req, res, next) => {
     if (!req.session.cart) {
         res.render('shop/shopping-kart');
     }
-    res.render('shop/checkout', {'publisableKey' : process.env.STRIPE_PULISHABLE_KEY});
+    const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
+
+    (async () => {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: req.session.cart.totalPrice * 100,
+        currency: 'gbp',
+      });
+      res.render('shop/checkout', {
+          'publisableKey' : process.env.STRIPE_PULISHABLE_KEY,
+          'client_secret' : paymentIntent.client_secret,
+      });
+    })();
 });
 module.exports = router;
